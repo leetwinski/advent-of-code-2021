@@ -2,10 +2,9 @@
   (:require [clojure.string :refer [split-lines join]]))
 
 (defn min-max [data]
-  (let [freqs (frequencies data)]
-    (if (< (freqs \1 0) (freqs \0 0))
-      {:min \1 :max \0}
-      {:min \0 :max \1})))
+  (let [{ones \1 zeros \0 :or {ones 0 zeros 0}} (frequencies data)]
+    (zipmap [:min :max]
+            (if (< ones zeros) "10" "01"))))
 
 (def map-column #(partial apply map (comp % vector)))
 
