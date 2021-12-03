@@ -1,25 +1,18 @@
 (ns advent-2021.task3
   (:require [clojure.string :refer [split-lines]]))
 
-(def get-data (comp split-lines slurp))
-
-(defn normalize [results]
-  (->> results
-       (map #(Integer/parseInt % 2))
-       (apply *)))
-
 (defn min-max [& data]
   (let [freqs (frequencies data)]
     (if (< (freqs \1 0) (freqs \0 0))
       {:min \1 :max \0}
       {:min \0 :max \1})))
 
+(def apply-to-column #(partial apply map %))
+
 ;; part 1 solution
 (def solve1
-  (let [pam #(partial apply map %)]
-    (comp normalize
-          (pam str)
-          (pam (comp vals min-max)))))
+  (comp (apply-to-column str)
+        (apply-to-column (comp vals min-max))))
 
 ;; part 2 solution
 (defn solve2 [data]
@@ -35,13 +28,16 @@
                      (map #(subs % 1))
                      (narrow min-or-max)
                      (str first-char)))))]
-    (normalize [(narrow :min data)
-                (narrow :max data)])))
+    [(narrow :min data)
+     (narrow :max data)]))
 
 (defmacro execute []
-  (let [data (get-data "./resources/data3.txt")]
-    [(solve1 data)
-     (solve2 data)]))
+  (let [data (split-lines (slurp "./resources/data3.txt"))
+        normalize (fn [result] (->> result
+                                    (map #(Integer/parseInt % 2))
+                                    (apply *)))]
+    [(normalize (solve1 data))
+     (normalize (solve2 data))]))
 
 
 
