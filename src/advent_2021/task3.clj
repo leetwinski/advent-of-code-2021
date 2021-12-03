@@ -8,21 +8,18 @@
        (map #(Integer/parseInt % 2))
        (apply *)))
 
-(defn min-max [data]
+(defn min-max [& data]
   (let [freqs (frequencies data)]
     (if (< (freqs \1 0) (freqs \0 0))
       {:min \1 :max \0}
       {:min \0 :max \1})))
 
 ;; part 1 solution
-(defn solve1 [data]
-  (->> data
-       (apply map (comp
-                   vals
-                   min-max
-                   vector))
-       (apply map str)
-       normalize))
+(def solve1
+  (let [pam #(partial apply map %)]
+    (comp normalize
+          (pam str)
+          (pam (comp vals min-max)))))
 
 ;; part 2 solution
 (defn solve2 [data]
@@ -31,10 +28,10 @@
               (first data)
               (let [first-char (->> data
                                     (map first)
-                                    min-max
+                                    (apply min-max)
                                     min-or-max)]
                 (->> data
-                     (filter (comp #{first-char} first))
+                     (filter #(= first-char (first %)))
                      (map #(subs % 1))
                      (narrow min-or-max)
                      (str first-char)))))]
