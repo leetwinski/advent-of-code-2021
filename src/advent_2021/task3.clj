@@ -1,18 +1,18 @@
 (ns advent-2021.task3
-  (:require [clojure.string :refer [split-lines]]))
+  (:require [clojure.string :refer [split-lines join]]))
 
-(defn min-max [& data]
+(defn min-max [data]
   (let [freqs (frequencies data)]
     (if (< (freqs \1 0) (freqs \0 0))
       {:min \1 :max \0}
       {:min \0 :max \1})))
 
-(def apply-to-column #(partial apply map %))
+(def map-column #(partial apply map (comp % vector)))
 
 ;; part 1 solution
 (def solve1
-  (comp (apply-to-column str)
-        (apply-to-column (comp vals min-max))))
+  (comp (map-column join)
+        (map-column (comp vals min-max))))
 
 ;; part 2 solution
 (defn solve2 [data]
@@ -21,7 +21,7 @@
               (first data)
               (let [first-char (->> data
                                     (map first)
-                                    (apply min-max)
+                                    min-max
                                     min-or-max)]
                 (->> data
                      (filter #(= first-char (first %)))
@@ -38,6 +38,3 @@
                                     (apply *)))]
     [(normalize (solve1 data))
      (normalize (solve2 data))]))
-
-
-
