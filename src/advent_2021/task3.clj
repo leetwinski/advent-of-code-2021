@@ -24,6 +24,7 @@
        (apply map str)
        normalize))
 
+;; part 2 solution
 (defn solve2 [data]
   (letfn [(narrow [min-or-max data]
             (if (= 1 (count data))
