@@ -29,3 +29,8 @@
   (testing "4-1 passes on sample data"
     (is (= 4512 (sut/solve1 nums cards)))))
 
+(deftest task4-2-sample-input-test
+  (testing "4-2 passes on sample data"
+    (is (= 1924 (sut/solve2 nums cards)))))
+
+
