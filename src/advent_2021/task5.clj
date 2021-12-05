@@ -11,8 +11,10 @@
         (< x y) (range x (inc y))
         :else (range x (dec y) -1)))
 
-(defn windline [[[a b] [c d]]]
-  (map vector (to-range a c) (to-range b d)))
+(defn windline [[[a b :as start] [c d :as end]]]
+  (if (= start end)
+    [start]
+    (map vector (to-range a c) (to-range b d))))
 
 (defn is-diagonal? [[[a b] [c d]]]
   (and (not= a c) (not= b d)))
