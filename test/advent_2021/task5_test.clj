@@ -21,6 +21,3 @@
 (deftest task5-2-sample-input-test
   (testing "5-2 passes on sample data"
     (is (= 12 (sut/solve true data)))))
-
-
-
