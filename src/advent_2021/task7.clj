@@ -34,7 +34,7 @@
                      2.0)))))
 
 (defn avg [data]
-  (long (/ (apply + data) (double (count data)))))
+  (long (/ (apply + data) (count data))))
 
 (defn solve [step-to-cost find-horizontal data]
   (reposition-cost step-to-cost (find-horizontal data) data))
