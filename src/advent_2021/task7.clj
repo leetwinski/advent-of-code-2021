@@ -40,6 +40,6 @@
   (reposition-cost step-to-cost (find-horizontal data) data))
 
 (defmacro execute []
-  (let [data (parse-data "./resources/data6.txt")]
+  (let [data (parse-data "./resources/data7.txt")]
     [(solve identity median data)
      (solve sum-upto avg data)]))
