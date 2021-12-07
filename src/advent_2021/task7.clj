@@ -34,19 +34,12 @@
                      2.0)))))
 
 (defn avg [data]
-  (Math/round (/ (apply + data) (double (count data)))))
+  (long (/ (apply + data) (double (count data)))))
 
-(defn solve-1 [data]
-  (reposition-cost identity (median data) data))
-
-;; the solution presumably lies between the median and average values
-(defn solve-2 [data]
-  (let [med (median data)
-        av (avg data)]
-    (->> (range (min av med) (inc (max av med)))
-         (map #(reposition-cost sum-upto % data))
-         (apply min))))
+(defn solve [step-to-cost find-horizontal data]
+  (reposition-cost step-to-cost (find-horizontal data) data))
 
 (defmacro execute []
   (let [data (parse-data "./resources/data6.txt")]
-    ((juxt solve-1 solve-2) data)))
+    [(solve identity median data)
+     (solve sum-upto avg data)]))
