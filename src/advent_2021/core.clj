@@ -5,7 +5,8 @@
             [advent-2021.task4 :as task4]
             [advent-2021.task5 :as task5]
             [advent-2021.task6 :as task6]
-            [advent-2021.task7 :as task7]))
+            [advent-2021.task7 :as task7]
+            [advent-2021.task8 :as task8]))
 
 (defn -main []
   (println "task1:" (task1/execute))
@@ -14,4 +15,5 @@
   (println "task4:" (task4/execute))
   (println "task5:" (task5/execute))
   (println "task6:" (task6/execute))
-  (println "task7:" (task7/execute)))
+  (println "task7:" (task7/execute))
+  (println "task8:" (task8/execute)))

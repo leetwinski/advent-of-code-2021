@@ -22,4 +22,3 @@
   (let [data (parse-data "./resources/data6.txt")]
     [(day-value data 80)
      (day-value data 256)]))
-
