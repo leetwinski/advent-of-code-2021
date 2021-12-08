@@ -5,10 +5,8 @@
       match (fn [f data]
               (let [found (first (filter f data))]
                 [found (remove #{found} data)]))]
-  (defn parse-in [item]
-    (let [item (sort-by count (map set item))
-          [a1 a7 a4 & unknown] (butlast item)
-          a8 (last item)
+  (defn infer-digits [legend]
+    (let [[[a1 a7 a4 & unknown] a8] ((juxt butlast last) (sort-by count legend))
           [a3 unknown] (match #(= 3 (count (D % a1))) unknown)
           [a6 unknown] (match #(= 5 (count (D % a1))) unknown)
           [a5 unknown] (match #(= % (I % a6)) unknown)
@@ -17,10 +15,13 @@
       (zipmap [a0 a1 a2 a3 a4 a5 a6 a7 a8 a9] (range)))))
 
 (defn parse [path]
-  (map #(let [[legend data] (split-at 10 %)
-              digits (parse-in legend)]
-          (map (comp digits set) data))
-       (partition 14 (re-seq #"[a-z]+" (slurp path)))))
+  (->> path
+       slurp
+       (re-seq #"[a-z]+")
+       (map set)
+       (partition 14)
+       (map #(let [[legend data] (split-at 10 %)]
+               (map (infer-digits legend) data)))))
 
 (defn solve-1 [data]
   (->> data
