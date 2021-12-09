@@ -31,8 +31,10 @@
          (reduce into #{}))))
 
 (defn cross [starting-at field]
-  (reduce into #{} (map #(increasing starting-at % field)
-                        [:up :down :left :right])))
+  (->> deltas
+       keys
+       (map #(increasing starting-at % field))
+       (reduce into #{})))
 
 (defn basin [low-point field]
   (letfn [(rec [visited [x & xs :as remaining]]
