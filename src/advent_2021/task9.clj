@@ -6,6 +6,8 @@
   (mapv #(mapv (comp read-string str) %)
         (split-lines (slurp path))))
 
+(def deltas {:left [0 -1] :right [0 1] :up [-1 0] :down [1 0]})
+
 (defn indices [data]
   (mapcat (fn [y] (map (partial vector y)
                        (range (count (first data)))))
@@ -15,23 +17,14 @@
   #(get-in field % 10))
 
 (defn low-point? [[y x] field]
-  (let [[middle & others] (map (val-at field)
-                               [[y x]
-                                [(dec y) x]
-                                [(inc y) x]
-                                [y (dec x)]
-                                [y (inc x)]])]
+  (let [[middle & others] (map (comp (val-at field) (partial mapv + [y x]))
+                               (cons [0 0] (vals deltas)))]
     (every? #(< middle %) others)))
 
 (defn increasing [starting-at direction field]
-  (let [get-val (val-at field)
-        delta (case direction
-                :left [0 -1]
-                :right [0 1]
-                :up [-1 0]
-                :down [1 0])]
+  (let [get-val (val-at field)]
     (->> starting-at
-         (iterate (partial mapv + delta))
+         (iterate (partial mapv + (deltas direction)))
          (take-while #(< (get-val %) 9))
          (partition 2 1)
          (take-while (fn [[a b]] (< (get-val a) (get-val b))))
@@ -66,8 +59,10 @@
        (map (val-at field))))
 
 (defn solve1 [field]
-  (let [lp (low-points field)]
-    (apply + (count lp) lp)))
+  (->> field
+       low-points
+       (map inc)
+       (apply +)))
 
 (defn solve2 [field]
   (->> field
