@@ -29,16 +29,19 @@
                (into (get-candidates point val-at) points))
         res))))
 
-(defn solve1 [low-points val-at]
-  (apply + (map (comp inc val-at) low-points)))
-
-(defn solve2 [low-points val-at]
+(defn all-basins [low-points val-at]
   (->> low-points
        (map #(basin % val-at))
        (map #(zipmap % (repeat (set %))))
        (apply merge-with into)
        vals
-       distinct       
+       distinct))
+
+(defn solve1 [low-points val-at]
+  (apply + (map (comp inc val-at) low-points)))
+
+(defn solve2 [low-points val-at]
+  (->> (all-basins low-points val-at)
        (map count)
        (sort >)
        (take 3)
