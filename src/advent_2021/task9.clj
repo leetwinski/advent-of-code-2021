@@ -9,9 +9,8 @@
 (def deltas {:left [0 -1] :right [0 1] :up [-1 0] :down [1 0]})
 
 (defn indices [data]
-  (mapcat (fn [y] (map (partial vector y)
-                       (range (count (first data)))))
-          (range (count data))))
+  (for [y (range (count data)) x (range (count (first data)))]
+    [y x]))
 
 (defn val-at [field]
   #(get-in field % 10))
