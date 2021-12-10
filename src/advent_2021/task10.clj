@@ -17,8 +17,6 @@
        (map completion-price)
        (reduce #(+ %2 (* % 5)) 0)))
 
-(def parse (comp split-lines slurp))
-
 (defn middle [data] (nth data (quot (count data) 2)))
 
 (defn process [line]
@@ -29,9 +27,15 @@
           {:stack []}
           line))
 
+(defn parse [path]
+  (->> path
+       slurp
+       split-lines
+       (map process)
+       ((juxt keep remove) :err)))
+
 (defmacro execute []
-  (let [processed (map process (parse "./resources/data10.txt"))
-        [errors incompletes] ((juxt keep remove) :err processed)
+  (let [[errors incompletes] (parse "./resources/data10.txt")
         res1 (apply + (map err-price errors))
         res2 (middle (sort (map (comp estimate-completion :stack) incompletes)))]
     [res1 res2]))
