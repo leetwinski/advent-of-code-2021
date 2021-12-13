@@ -9,7 +9,8 @@
             [advent-2021.task8 :as task8]
             [advent-2021.task9 :as task9]
             [advent-2021.task10 :as task10]
-            [advent-2021.task11 :as task11]))
+            [advent-2021.task11 :as task11]
+            [advent-2021.task13 :as task13]))
 
 
 
@@ -24,4 +25,9 @@
   (println "task8:" (task8/execute))
   (println "task9:" (task9/execute))
   (println "task10:" (task10/execute))
-  (println "task11:" (task11/execute)))
+  (println "task11:" (task11/execute))
+  (let [[res1 res2] (task13/execute)]
+    (println "task13: [")
+    (println res1)
+    (println res2)
+    (println "]")))
