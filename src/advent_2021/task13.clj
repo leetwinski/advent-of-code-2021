@@ -53,6 +53,6 @@
   (field->str (reduce fold-by-axis field folds)))
 
 (defmacro execute []
-  (let [{:keys [folds field]} (parse "/home/leetwin/dev/projects/playground/advent-2021/advent-2021/resources/data13.txt")]
+  (let [{:keys [folds field]} (parse "./resources/data13.txt")]
     [(solve1 field (first folds))
      (solve2 field folds)]))
