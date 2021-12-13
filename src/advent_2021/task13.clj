@@ -2,8 +2,7 @@
   (:require [clojure.string :refer [split-lines join]]
             [clojure.edn :refer [read-string]]))
 
-(defn field->str [field]
-  (join \newline (map join field)))
+(defn field->str [field] (join \newline (map join field)))
 
 (def transpose (partial apply map vector))
 
@@ -13,7 +12,8 @@
 (defn make-field [[height width]]
   (vec (repeat height (vec (repeat width \.)))))
 
-(defn fold-val [a b] (or (some #{\#} [a b]) \.))
+(defn fold-val [a b]
+  (if (or (= \# a) (= \# b)) \# \.))
 
 (defn fold-line [at line]
   (let [[l [_ & r]] (split-at at line)
@@ -35,8 +35,7 @@
                     points)))
 
 (defn parse [path]
-  (let [[l [_ & r]] (split-with seq
-                                (split-lines (slurp path)))
+  (let [[l [_ & r]] (split-with seq (split-lines (slurp path)))
         points (map #(let [[a b] (read-string (str "[" % "]"))]
                        [b a]) l)
         field (make-field (field-size points))
