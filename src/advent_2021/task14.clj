@@ -28,6 +28,6 @@
        (apply -)))
 
 (defmacro execute []
-  (let [{:keys [tpl rules]} (parse (slurp "/home/leetwin/dev/projects/playground/advent-2021/advent-2021/resources/data14.txt"))
+  (let [{:keys [tpl rules]} (parse (slurp "./resources/data14.txt"))
         prods (partial count-production rules tpl)]
     (mapv prods [10 40])))
