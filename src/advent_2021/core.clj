@@ -13,6 +13,7 @@
             [advent-2021.task12 :as task12]
             [advent-2021.task13 :as task13]
             [advent-2021.task14 :as task14]
+            [advent-2021.task15 :as task15]
             [advent-2021.task16 :as task16]))
 
 
@@ -36,5 +37,5 @@
     (println res2)
     (println "]"))
   (println "task14:" (task14/execute))
-  (println "task16:" (task16/execute))
-  )
+  (println "task15:" (task15/execute))
+  (println "task16:" (task16/execute)))
