@@ -24,23 +24,24 @@
     (- (table [0 0])
        (get-in field [0 0]))))
 
+(defn inc-row [row]
+  (map #(if (= % 9) 1 (inc %)) row))
+
+(defn inc-grid [grid]
+  (map inc-row grid))
+
+(defn replicate-h [grid]
+  (apply map #(reduce into [] %&)
+         (take 5 (iterate inc-grid grid))))
+
+(defn replicate-v [grid]
+  (let [row (replicate-h grid)]
+    (mapv vec (apply concat (take 5 (iterate inc-grid row))))))
+
 (defmacro execute []
   (let [field (parse "./resources/data15.txt")]
-    [(min-path field) :unimplemented]))
-
-;; (defn inc-row [row]
-;;   (map #(if (= % 9) 1 (inc %)) row))
-
-;; (defn inc-grid [grid]
-;;   (map inc-row grid))
-
-;; (defn replicate-h [grid]
-;;   (apply map #(reduce into [] %&)
-;;          (take 5 (iterate inc-grid grid))))
-
-;; (defn replicate-v [grid]
-;;   (let [row (replicate-h grid)]
-;;     (mapv vec (apply concat (take 5 (iterate inc-grid row))))))
+    [(min-path field)
+     :unimplemented]))
 
 
 
